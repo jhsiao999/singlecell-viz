@@ -1,0 +1,96 @@
+---
+title: "Friedman et al., 2018"
+author: "jhsiao999"
+date: "2018-11-16"
+output: workflowr::wflow_html
+---
+
+## Introduction
+
+
+
+```{r, eval=F}
+library(CountClust)
+library(data.table)
+day0rep1 <- fread("../data/E-MTAB-6268/Day0Rep1_ReadMappedCount.txt")
+day0rep2 <- fread("../data/E-MTAB-6268/Day0Rep2_ReadMappedCount.txt")
+day2rep1 <- fread("../data/E-MTAB-6268/Day2Rep1_ReadMappedCount.txt")
+day2rep2 <- fread("../data/E-MTAB-6268/Day2Rep2_ReadMappedCount.txt")
+day5rep1 <- fread("../data/E-MTAB-6268/Day5Rep1_ReadMappedCount.txt")
+day5rep2 <- fread("../data/E-MTAB-6268/Day5Rep2_ReadMappedCount.txt")
+day15rep1 <- fread("../data/E-MTAB-6268/Day15Rep1_ReadMappedCount.txt")
+day15rep2 <- fread("../data/E-MTAB-6268/Day15Rep2_ReadMappedCount.txt")
+day30rep1 <- fread("../data/E-MTAB-6268/Day30Rep1_ReadMappedCount.txt")
+day30rep2 <- fread("../data/E-MTAB-6268/Day30Rep2_ReadMappedCount.txt")
+
+dim(day0rep1)
+dim(day0rep2)
+all.equal(day0rep1[,1], day2rep2[,1])
+
+rownames(day0rep1) <- day0rep1$V1
+rownames(day0rep2) <- day0rep2$V1
+rownames(day2rep1) <- day2rep1$V1
+rownames(day2rep2) <- day2rep2$V1
+rownames(day5rep1) <- day5rep1$V1
+rownames(day5rep2) <- day5rep2$V1
+rownames(day15rep1) <- day15rep1$V1
+rownames(day15rep2) <- day15rep2$V1
+rownames(day30rep1) <- day30rep1$V1
+rownames(day30rep2) <- day30rep2$V1
+
+day0rep1 <- day0rep1[,-1]
+day0rep2 <- day0rep2[,-1]
+day2rep1 <- day2rep1[,-1]
+day2rep2 <- day2rep2[,-1]
+day5rep1 <- day5rep1[,-1]
+day5rep2 <- day5rep2[,-1]
+day15rep1 <- day15rep1[,-1]
+day15rep2 <- day15rep2[,-1]
+day30rep1 <- day30rep1[,-1]
+day30rep2 <- day30rep2[,-1]
+
+colnames(day0rep1) <- paste0("day0_rep1_", sprintf("%04d", c(1:ncol(day0rep1))))
+colnames(day0rep2) <- paste0("day0_rep2_", sprintf("%04d", c(1:ncol(day0rep2))))
+colnames(day2rep1) <- paste0("day2_rep1_", sprintf("%04d", c(1:ncol(day2rep1))))
+colnames(day2rep2) <- paste0("day2_rep2_", sprintf("%04d", c(1:ncol(day2rep2))))
+colnames(day5rep1) <- paste0("day5_rep1_", sprintf("%04d", c(1:ncol(day5rep1))))
+colnames(day5rep2) <- paste0("day5_rep2_", sprintf("%04d", c(1:ncol(day5rep2))))
+colnames(day15rep1) <- paste0("day15_rep1_", sprintf("%04d", c(1:ncol(day15rep1))))
+colnames(day15rep2) <- paste0("day15_rep2_", sprintf("%04d", c(1:ncol(day15rep2))))
+colnames(day30rep1) <- paste0("day30_rep1_", sprintf("%04d", c(1:ncol(day30rep1))))
+colnames(day30rep2) <- paste0("day30_rep2_", sprintf("%04d", c(1:ncol(day30rep2))))
+
+day0 <- cbind(day0rep1, day0rep2)
+day2 <- cbind(day2rep1, day2rep2)
+day5 <- cbind(day5rep1, day5rep2)
+day15 <- cbind(day15rep1, day15rep2)
+day30 <- cbind(day30rep1, day30rep2)
+all <- cbind(day0, day2, day5, day15, day30)
+
+library(matrixStats)
+all <- as.matrix(all)
+
+ii <- order(rowVars(all), decreasing = T)[1:500]
+
+all_vars <- all[ii,]
+
+# take the top 100 variable genes
+
+library(dplyr)
+# library(magrittr)
+# day0 %>% rowwise() %>% 
+#   summarize(rowsum = sum (.))
+#tt <- day0 %>% mutate(rowsum = rowSums(.))
+# tt <- rowSums(day0)
+# summary(tt)
+
+#summary(rowSums(day0[1:10,]))
+
+for (k in 2:15) {
+  FitGoM(t(all), K=k, path_rda=paste0("data/friedman2018_fit_",k,"clust.rda"))
+}
+
+
+
+```
+

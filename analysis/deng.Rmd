@@ -1,0 +1,75 @@
+---
+title: "Deng et al., 2014"
+author: "jhsiao999"
+date: "2018-11-16"
+output: workflowr::wflow_html
+---
+
+## Overview
+
+
+```{r, warning=F, message=F}
+library(CountClust)
+
+data("MouseDeng2014.FitGoM")
+#names(MouseDeng2014.FitGoM)
+omega <- MouseDeng2014.FitGoM$clust_6$omega
+
+annotation <- data.frame(
+  sample_id = paste0("X", c(1:NROW(omega))),
+  tissue_label = factor(rownames(omega),
+                        levels = rev( c("zy", "early2cell",
+                                        "mid2cell", "late2cell",
+                                        "4cell", "8cell", "16cell",
+                                        "earlyblast","midblast",
+                                        "lateblast") ) ) )
+
+rownames(omega) <- annotation$sample_id;
+
+StructureGGplot(omega = omega,
+                annotation = annotation,
+                palette = RColorBrewer::brewer.pal(8, "Accent"),
+                yaxis_label = "Amplification batch",
+                order_sample = TRUE,
+                axis_tick = list(axis_ticks_length = .1,
+                                 axis_ticks_lwd_y = .1,
+                                 axis_ticks_lwd_x = .1,
+                                 axis_label_size = 7,
+                                 axis_label_face = "bold"))
+
+
+
+library(plotrix)
+library(RColorBrewer)
+# make color scheme
+cols <- c( rev(c("darkblue", "blue", "cornflowerblue", "cadetblue2")),
+           rev(c("darkgreen", "darkolivegreen4", "darkolivegreen3")),
+           rev(c("coral4", "coral3", "coral")) )
+
+tissue_list <- as.character(unique(annotation$tissue_label))
+tissue_n <- length(tissue_list)
+
+omega_z <- do.call(cbind,lapply(1:ncol(omega), function(i) scale(omega[,i])))
+
+par(mfrow=c(2,5))
+for (i in 1:tissue_n) {
+  # if (i==1) {
+  #   when_add <- F
+  # } else {
+  #   when_add <- T
+  # }
+  ii <- which(annotation$tissue_label==tissue_list[i])
+  #plot_len <- omega_z[230,]
+  plot_pos <- seq(from=0, to=2*pi, length.out=7)
+  plot_len_matrix <- omega_z[ii,]
+  radial.plot(lengths=plot_len_matrix,
+              radial.pos=plot_pos[-length(plot_pos)], 
+              main="", line.col=rep(scales::alpha(cols[i], .1),length(ii)),
+              lwd=1, rad.col="gray70", #show.grid=FALSE,
+              rp.type="p", poly.col=scales::alpha(cols[i], .1),
+              radlab=F,show.grid.labels=0, labels=c(1:6), cex.lab=.1,
+              mar=c(0,1,0,1),
+              add=F)
+}
+```
+

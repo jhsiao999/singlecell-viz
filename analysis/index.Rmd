@@ -6,4 +6,19 @@ output:
     toc: false
 ---
 
-Visualizing single-cell data.
+Apply `CountClust` to visualizing single-cell sequencing data.
+
+
+Possibly provide insights for:
+
+* Cell types along developmental trajectories: continuity in their transcriptional states
+
+* Cell populations along developmental trajectories: reveal cell states
+
+
+
+* [Deng et al., 2014](deng.html)
+
+* [Friedman et al., 2018](friedman.html)
+
+* [Buentrostro et al., 2018](buentrostro.html)

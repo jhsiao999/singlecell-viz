@@ -1,0 +1,39 @@
+---
+title: "Buentrostro et al., 2018"
+author: "jhsiao999"
+date: "2018-11-16"
+output: workflowr::wflow_html
+---
+
+## Introduction
+
+```{r, eval=F}
+library(CountClust)
+#library(data.table)
+library(R.matlab)
+
+
+mat <- R.matlab::readMat("../data/buenrostro2018/supplementary_code/input/scRNAseq_data.mat")
+
+
+matt_ind <- as.matrix(summary(mat$counts))
+
+matt <- matrix(0,nrow=mat$counts@Dim[1],ncol=mat$counts@Dim[2])
+
+matt[matt_ind[,1], matt_ind[,2]] <- matt_ind[,3]
+
+
+(mat$counts)[1:5]
+
+dim(mat)
+
+library(dplyr)
+
+
+for (k in 2:15) {
+  FitGoM(t(all), K=k, path_rda=paste0("data/friedman2018_fit_",k,"clust.rda"))
+}
+
+
+```
+
