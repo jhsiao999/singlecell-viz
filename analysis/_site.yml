@@ -15,6 +15,7 @@ navbar:
 output:
   workflowr::wflow_html:
     toc: true
-    toc_float: true
+    toc_float: FALSE
     theme: cosmo
     highlight: textmate
+    code_folding: hide
