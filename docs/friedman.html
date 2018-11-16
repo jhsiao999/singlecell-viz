@@ -9,9 +9,11 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="jhsiao999" />
 
+<meta name="date" content="2018-11-16" />
 
-<title>Home</title>
+<title>Friedman et al., 2018</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -233,10 +235,18 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Friedman et al., 2018</h1>
+<h4 class="author"><em>jhsiao999</em></h4>
+<h4 class="date"><em>2018-11-16</em></h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#session-information">Session information</a></li>
+</ul>
+</div>
 
 <p><strong>Last updated:</strong> 2018-11-16</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
@@ -244,6 +254,21 @@ div.section {
 <li>
 <p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
 <p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181116)</code> </summary></p>
+<p>The command <code>set.seed(20181116)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
 </details>
 </li>
 <li>
@@ -296,7 +321,7 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/aede70364cc27d5583c3a6b62bbd50924cccdf80/analysis/index.Rmd" target="_blank">aede703</a>
+<a href="https://github.com/jhsiao999/singlecell-viz/blob/aede70364cc27d5583c3a6b62bbd50924cccdf80/analysis/friedman.Rmd" target="_blank">aede703</a>
 </td>
 <td style="text-align:left;">
 jhsiao999
@@ -308,88 +333,119 @@ jhsiao999
 add new analysis
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/b28dd04eda5942652667dd3a5128e88a347d7c23/docs/index.html" target="_blank">b28dd04</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/ee317b3ac0e32fdfac2cc69200ceb98b8173b4c6/analysis/index.Rmd" target="_blank">ee317b3</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-add project info
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/0e1656d2c6f826f207b5adcc724a1d0644d47939/docs/index.html" target="_blank">0e1656d</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-first commit
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/82af6f1e2f46254a81ae6120028d25e435528016/analysis/index.Rmd" target="_blank">82af6f1</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-Start workflowr project.
-</td>
-</tr>
 </tbody>
 </table>
 </ul>
 <p></details></p>
 <hr />
-<p>Apply <code>CountClust</code> to visualizing single-cell sequencing data.</p>
-<p>Possibly provide insights for:</p>
-<ul>
-<li><p>Cell types along developmental trajectories: continuity in their transcriptional states</p></li>
-<li><p>Cell populations along developmental trajectories: reveal cell states</p></li>
-<li><p><a href="deng.html">Deng et al., 2014</a></p></li>
-<li><p><a href="friedman.html">Friedman et al., 2018</a></p></li>
-<li><p><a href="buentrostro.html">Buentrostro et al., 2018</a></p></li>
-</ul>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<pre class="r"><code>library(CountClust)
+library(data.table)
+day0rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day0Rep1_ReadMappedCount.txt&quot;)
+day0rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day0Rep2_ReadMappedCount.txt&quot;)
+day2rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day2Rep1_ReadMappedCount.txt&quot;)
+day2rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day2Rep2_ReadMappedCount.txt&quot;)
+day5rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day5Rep1_ReadMappedCount.txt&quot;)
+day5rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day5Rep2_ReadMappedCount.txt&quot;)
+day15rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day15Rep1_ReadMappedCount.txt&quot;)
+day15rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day15Rep2_ReadMappedCount.txt&quot;)
+day30rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day30Rep1_ReadMappedCount.txt&quot;)
+day30rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day30Rep2_ReadMappedCount.txt&quot;)
+
+dim(day0rep1)
+dim(day0rep2)
+all.equal(day0rep1[,1], day2rep2[,1])
+
+rownames(day0rep1) &lt;- day0rep1$V1
+rownames(day0rep2) &lt;- day0rep2$V1
+rownames(day2rep1) &lt;- day2rep1$V1
+rownames(day2rep2) &lt;- day2rep2$V1
+rownames(day5rep1) &lt;- day5rep1$V1
+rownames(day5rep2) &lt;- day5rep2$V1
+rownames(day15rep1) &lt;- day15rep1$V1
+rownames(day15rep2) &lt;- day15rep2$V1
+rownames(day30rep1) &lt;- day30rep1$V1
+rownames(day30rep2) &lt;- day30rep2$V1
+
+day0rep1 &lt;- day0rep1[,-1]
+day0rep2 &lt;- day0rep2[,-1]
+day2rep1 &lt;- day2rep1[,-1]
+day2rep2 &lt;- day2rep2[,-1]
+day5rep1 &lt;- day5rep1[,-1]
+day5rep2 &lt;- day5rep2[,-1]
+day15rep1 &lt;- day15rep1[,-1]
+day15rep2 &lt;- day15rep2[,-1]
+day30rep1 &lt;- day30rep1[,-1]
+day30rep2 &lt;- day30rep2[,-1]
+
+colnames(day0rep1) &lt;- paste0(&quot;day0_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day0rep1))))
+colnames(day0rep2) &lt;- paste0(&quot;day0_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day0rep2))))
+colnames(day2rep1) &lt;- paste0(&quot;day2_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day2rep1))))
+colnames(day2rep2) &lt;- paste0(&quot;day2_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day2rep2))))
+colnames(day5rep1) &lt;- paste0(&quot;day5_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day5rep1))))
+colnames(day5rep2) &lt;- paste0(&quot;day5_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day5rep2))))
+colnames(day15rep1) &lt;- paste0(&quot;day15_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day15rep1))))
+colnames(day15rep2) &lt;- paste0(&quot;day15_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day15rep2))))
+colnames(day30rep1) &lt;- paste0(&quot;day30_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day30rep1))))
+colnames(day30rep2) &lt;- paste0(&quot;day30_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day30rep2))))
+
+day0 &lt;- cbind(day0rep1, day0rep2)
+day2 &lt;- cbind(day2rep1, day2rep2)
+day5 &lt;- cbind(day5rep1, day5rep2)
+day15 &lt;- cbind(day15rep1, day15rep2)
+day30 &lt;- cbind(day30rep1, day30rep2)
+all &lt;- cbind(day0, day2, day5, day15, day30)
+
+library(matrixStats)
+all &lt;- as.matrix(all)
+
+ii &lt;- order(rowVars(all), decreasing = T)[1:500]
+
+all_vars &lt;- all[ii,]
+
+# take the top 100 variable genes
+
+library(dplyr)
+# library(magrittr)
+# day0 %&gt;% rowwise() %&gt;% 
+#   summarize(rowsum = sum (.))
+#tt &lt;- day0 %&gt;% mutate(rowsum = rowSums(.))
+# tt &lt;- rowSums(day0)
+# summary(tt)
+
+#summary(rowSums(day0[1:10,]))
+
+for (k in 2:15) {
+  FitGoM(t(all), K=k, path_rda=paste0(&quot;data/friedman2018_fit_&quot;,k,&quot;clust.rda&quot;))
+}</code></pre>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.1 (2017-06-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.1.1   Rcpp_1.0.0        digest_0.6.18    
+ [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
+ [7] magrittr_1.5      git2r_0.23.0      evaluate_0.12    
+[10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.4.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.4.1   
+[19] htmltools_0.3.6   knitr_1.20       </code></pre>
+</div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see

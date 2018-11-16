@@ -9,9 +9,11 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="jhsiao999" />
 
+<meta name="date" content="2018-11-16" />
 
-<title>Home</title>
+<title>Deng et al., 2014</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -233,10 +235,18 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Deng et al., 2014</h1>
+<h4 class="author"><em>jhsiao999</em></h4>
+<h4 class="date"><em>2018-11-16</em></h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#session-information">Session information</a></li>
+</ul>
+</div>
 
 <p><strong>Last updated:</strong> 2018-11-16</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
@@ -244,6 +254,21 @@ div.section {
 <li>
 <p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
 <p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20181116)</code> </summary></p>
+<p>The command <code>set.seed(20181116)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
 </details>
 </li>
 <li>
@@ -256,9 +281,7 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    data/E-MTAB-6268/
     Ignored:    data/buenrostro2018/
-
-Untracked files:
-    Untracked:  docs/figure/
+    Ignored:    docs/figure/
 
 Unstaged changes:
     Modified:   analysis/_site.yml
@@ -296,7 +319,7 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/aede70364cc27d5583c3a6b62bbd50924cccdf80/analysis/index.Rmd" target="_blank">aede703</a>
+<a href="https://github.com/jhsiao999/singlecell-viz/blob/aede70364cc27d5583c3a6b62bbd50924cccdf80/analysis/deng.Rmd" target="_blank">aede703</a>
 </td>
 <td style="text-align:left;">
 jhsiao999
@@ -308,88 +331,120 @@ jhsiao999
 add new analysis
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/b28dd04eda5942652667dd3a5128e88a347d7c23/docs/index.html" target="_blank">b28dd04</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/ee317b3ac0e32fdfac2cc69200ceb98b8173b4c6/analysis/index.Rmd" target="_blank">ee317b3</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-add project info
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/0e1656d2c6f826f207b5adcc724a1d0644d47939/docs/index.html" target="_blank">0e1656d</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-first commit
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/82af6f1e2f46254a81ae6120028d25e435528016/analysis/index.Rmd" target="_blank">82af6f1</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-15
-</td>
-<td style="text-align:left;">
-Start workflowr project.
-</td>
-</tr>
 </tbody>
 </table>
 </ul>
 <p></details></p>
 <hr />
-<p>Apply <code>CountClust</code> to visualizing single-cell sequencing data.</p>
-<p>Possibly provide insights for:</p>
-<ul>
-<li><p>Cell types along developmental trajectories: continuity in their transcriptional states</p></li>
-<li><p>Cell populations along developmental trajectories: reveal cell states</p></li>
-<li><p><a href="deng.html">Deng et al., 2014</a></p></li>
-<li><p><a href="friedman.html">Friedman et al., 2018</a></p></li>
-<li><p><a href="buentrostro.html">Buentrostro et al., 2018</a></p></li>
-</ul>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<pre class="r"><code>library(CountClust)
+
+data(&quot;MouseDeng2014.FitGoM&quot;)
+#names(MouseDeng2014.FitGoM)
+omega &lt;- MouseDeng2014.FitGoM$clust_6$omega
+
+annotation &lt;- data.frame(
+  sample_id = paste0(&quot;X&quot;, c(1:NROW(omega))),
+  tissue_label = factor(rownames(omega),
+                        levels = rev( c(&quot;zy&quot;, &quot;early2cell&quot;,
+                                        &quot;mid2cell&quot;, &quot;late2cell&quot;,
+                                        &quot;4cell&quot;, &quot;8cell&quot;, &quot;16cell&quot;,
+                                        &quot;earlyblast&quot;,&quot;midblast&quot;,
+                                        &quot;lateblast&quot;) ) ) )
+
+rownames(omega) &lt;- annotation$sample_id;
+
+StructureGGplot(omega = omega,
+                annotation = annotation,
+                palette = RColorBrewer::brewer.pal(8, &quot;Accent&quot;),
+                yaxis_label = &quot;Amplification batch&quot;,
+                order_sample = TRUE,
+                axis_tick = list(axis_ticks_length = .1,
+                                 axis_ticks_lwd_y = .1,
+                                 axis_ticks_lwd_x = .1,
+                                 axis_label_size = 7,
+                                 axis_label_face = &quot;bold&quot;))</code></pre>
+<p><img src="figure/deng.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>library(plotrix)
+library(RColorBrewer)
+# make color scheme
+cols &lt;- c( rev(c(&quot;darkblue&quot;, &quot;blue&quot;, &quot;cornflowerblue&quot;, &quot;cadetblue2&quot;)),
+           rev(c(&quot;darkgreen&quot;, &quot;darkolivegreen4&quot;, &quot;darkolivegreen3&quot;)),
+           rev(c(&quot;coral4&quot;, &quot;coral3&quot;, &quot;coral&quot;)) )
+
+tissue_list &lt;- as.character(unique(annotation$tissue_label))
+tissue_n &lt;- length(tissue_list)
+
+omega_z &lt;- do.call(cbind,lapply(1:ncol(omega), function(i) scale(omega[,i])))
+
+par(mfrow=c(2,5))
+for (i in 1:tissue_n) {
+  # if (i==1) {
+  #   when_add &lt;- F
+  # } else {
+  #   when_add &lt;- T
+  # }
+  ii &lt;- which(annotation$tissue_label==tissue_list[i])
+  #plot_len &lt;- omega_z[230,]
+  plot_pos &lt;- seq(from=0, to=2*pi, length.out=7)
+  plot_len_matrix &lt;- omega_z[ii,]
+  radial.plot(lengths=plot_len_matrix,
+              radial.pos=plot_pos[-length(plot_pos)], 
+              main=&quot;&quot;, line.col=rep(scales::alpha(cols[i], .1),length(ii)),
+              lwd=1, rad.col=&quot;gray70&quot;, #show.grid=FALSE,
+              rp.type=&quot;p&quot;, poly.col=scales::alpha(cols[i], .1),
+              radlab=F,show.grid.labels=0, labels=c(1:6), cex.lab=.1,
+              mar=c(0,1,0,1),
+              add=F)
+}</code></pre>
+<p><img src="figure/deng.Rmd/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.4.1 (2017-06-30)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] RColorBrewer_1.1-2 plotrix_3.7-4      CountClust_1.6.2  
+[4] ggplot2_3.1.0     
+
+loaded via a namespace (and not attached):
+ [1] gtools_3.8.1      modeltools_0.2-22 tidyselect_0.2.5 
+ [4] slam_0.1-43       purrr_0.2.5       reshape2_1.4.3   
+ [7] lattice_0.20-38   colorspace_1.3-2  mapplots_1.5.1   
+[10] htmltools_0.3.6   stats4_3.4.1      mgcv_1.8-25      
+[13] yaml_2.2.0        rlang_0.3.0.1     R.oo_1.22.0      
+[16] pillar_1.3.0      glue_1.3.0        withr_2.1.2      
+[19] R.utils_2.7.0     bindrcpp_0.2.2    bindr_0.1.1      
+[22] plyr_1.8.4        stringr_1.3.1     munsell_0.5.0    
+[25] gtable_0.2.0      workflowr_1.1.1   R.methodsS3_1.7.1
+[28] evaluate_0.12     knitr_1.20        permute_0.9-4    
+[31] flexmix_2.3-14    parallel_3.4.1    Rcpp_1.0.0       
+[34] scales_1.0.0      backports_1.1.2   limma_3.34.9     
+[37] vegan_2.5-3       maptpx_1.9-5      picante_1.7      
+[40] digest_0.6.18     stringi_1.2.4     Rtsne_0.15       
+[43] dplyr_0.7.8       grid_3.4.1        rprojroot_1.3-2  
+[46] cowplot_0.9.3     tools_3.4.1       magrittr_1.5     
+[49] lazyeval_0.2.1    tibble_1.4.2      cluster_2.0.7-1  
+[52] crayon_1.3.4      ape_5.2           whisker_0.3-2    
+[55] pkgconfig_2.0.2   Matrix_1.2-15     MASS_7.3-51.1    
+[58] SQUAREM_2017.10-1 assertthat_0.2.0  rmarkdown_1.10   
+[61] R6_2.3.0          boot_1.3-20       nlme_3.1-137     
+[64] nnet_7.3-12       git2r_0.23.0      compiler_3.4.1   </code></pre>
+</div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see
