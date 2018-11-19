@@ -11,9 +11,9 @@
 
 <meta name="author" content="jhsiao999" />
 
-<meta name="date" content="2018-11-16" />
+<meta name="date" content="2018-11-19" />
 
-<title>Friedman et al., 2018</title>
+<title>runtime</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -235,15 +235,16 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Friedman et al., 2018</h1>
+<h1 class="title toc-ignore">runtime</h1>
 <h4 class="author"><em>jhsiao999</em></h4>
-<h4 class="date"><em>2018-11-16</em></h4>
+<h4 class="date"><em>2018-11-19</em></h4>
 
 </div>
 
 <div id="TOC">
 <ul>
 <li><a href="#overview">Overview</a></li>
+<li><a href="#analysis">Analysis</a></li>
 <li><a href="#session-information">Session information</a></li>
 </ul>
 </div>
@@ -318,7 +319,7 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/508e2c254e4eebeea25c96c3ec339f7f5873ae2d/analysis/friedman.Rmd" target="_blank">508e2c2</a>
+<a href="https://github.com/jhsiao999/singlecell-viz/blob/508e2c254e4eebeea25c96c3ec339f7f5873ae2d/analysis/runtime.Rmd" target="_blank">508e2c2</a>
 </td>
 <td style="text-align:left;">
 jhsiao999
@@ -330,40 +331,6 @@ jhsiao999
 add runtime Rmd
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/eda86ffbf72f17b9463307a528574da43652f650/docs/friedman.html" target="_blank">eda86ff</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-16
-</td>
-<td style="text-align:left;">
-Build site.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Rmd
-</td>
-<td style="text-align:left;">
-<a href="https://github.com/jhsiao999/singlecell-viz/blob/aede70364cc27d5583c3a6b62bbd50924cccdf80/analysis/friedman.Rmd" target="_blank">aede703</a>
-</td>
-<td style="text-align:left;">
-jhsiao999
-</td>
-<td style="text-align:left;">
-2018-11-16
-</td>
-<td style="text-align:left;">
-add new analysis
-</td>
-</tr>
 </tbody>
 </table>
 </ul>
@@ -371,12 +338,14 @@ add new analysis
 <hr />
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<ul>
-<li><p>Scientific findings on the data are described in <a href="https://doi.org/10.1016/j.stem.2018.09.009">Friedman et al., 2018</a>, “Single-cell transcriptomics analysis of cardiac differentiation from human PSCs reveals HOPX-dependent cardiomyocyte maturation”&quot;</p></li>
-<li><p>Details on data processing are described in <a href="https://doi.org/10.1101/229336">Nguyen et al., 2018</a>, “Determining cell fate specification and genetic contribution to cardiac disease risk in hiPSC-derived cardiomyocytes at single cell resolution”</p></li>
-</ul>
+<p>Checking runtime of CounClust with varying K, genes, and samples.</p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
 <pre class="r"><code>library(CountClust)
 library(data.table)
+library(matrixStats)
+
 
 day0rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day0Rep1_ReadMappedCount.txt&quot;)
 day0rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day0Rep2_ReadMappedCount.txt&quot;)
@@ -388,7 +357,6 @@ day15rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day15Rep1_ReadMappedCount.txt&qu
 day15rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day15Rep2_ReadMappedCount.txt&quot;)
 day30rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day30Rep1_ReadMappedCount.txt&quot;)
 day30rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day30Rep2_ReadMappedCount.txt&quot;)
-
 
 
 fdata &lt;- data.frame(gene_name = day0rep1$V1)
@@ -433,60 +401,16 @@ day15 &lt;- cbind(day15rep1, day15rep2)
 day30 &lt;- cbind(day30rep1, day30rep2)
 all &lt;- cbind(day0, day2, day5, day15, day30)
 
-library(matrixStats)
-
-# rownames(day0rep1) &lt;- fdata$gene_name
-# 
-ii &lt;- order(rowVars(as.matrix(day0rep1)), decreasing = T)[1:100]
-day0rep1_vars &lt;- day0rep1[ii,]
-t2 &lt;- system.time (out &lt;- FitGoM(t(day0rep1_vars),K = 2,tol = 1,
-              path_rda = &quot;../data/countclust_output.rda&quot;,control = list(verb = 2)))
 
 ii &lt;- order(rowVars(as.matrix(all)), decreasing = T)[1:100]
 all_vars &lt;- all[ii,]
 t1 &lt;- system.time(FitGoM(t(all_vars), K=2,
                          path_rda=paste0(&quot;../data/countclust_allsamples_k2.rda&quot;), 
                          tol=1, control=list(verb=2)))
- 
 
-
-
-# ii &lt;- order(rowVars(as.matrix(day0)), decreasing = T)[1:100]
-# day0_vars &lt;- day0[ii,]
-# t1 &lt;- system.time(FitGoM(t(day0_vars), K=2,
-#                          path_rda=paste0(&quot;../data/friedman2018_fit_&quot;,2,&quot;clust.rds&quot;), 
-#                          tol=1, control=list(verb=2)))
-
-load(&quot;../data/friedman2018_fit_2clust.rda&quot;)
-
-str(Topic_clus)
-
-
-omega &lt;- Topic_clus$omega
-
-annotation &lt;- data.frame(
-  sample_id = paste0(&quot;X&quot;, c(1:NROW(omega))),
-  tissue_label = factor(c(rep(&quot;day0_rep1&quot;,ncol(day0rep1)), 
-                          rep(&quot;day0_rep2&quot;,ncol(day0rep2))),
-                        levels = c(&quot;rep1&quot;, &quot;rep2&quot;) ) )
-
-StructureGGplot(omega = omega,
-#                annotation = annotation,
-                palette = RColorBrewer::brewer.pal(8, &quot;Accent&quot;),
-                yaxis_label = &quot;Amplification batch&quot;,
-                order_sample = TRUE,
-                axis_tick = list(axis_ticks_length = .1,
-                                 axis_ticks_lwd_y = .1,
-                                 axis_ticks_lwd_x = .1,
-                                 axis_label_size = 7,
-                                 axis_label_face = &quot;bold&quot;))
-
-                  
-# getwd()
-# 
-# for (k in 2:15) {
-#   FitGoM(t(all), K=k, path_rda=paste0(&quot;data/friedman2018_fit_&quot;,k,&quot;clust.rda&quot;))
-# }</code></pre>
+t2 &lt;- system.time(FitGoM(t(all_vars), K=2,
+                         path_rda=paste0(&quot;../data/countclust_allsamples_k2.rda&quot;), 
+                         tol=1, control=list(verb=2)))</code></pre>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
