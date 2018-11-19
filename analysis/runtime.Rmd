@@ -1,29 +1,24 @@
 ---
-title: "Friedman et al., 2018"
+title: "runtime"
 author: "jhsiao999"
-date: "2018-11-16"
+date: "2018-11-19"
 output: workflowr::wflow_html
 ---
 
 ## Overview
 
 
-* Scientific findings on the data are described in [Friedman et al., 2018][friedman2018], "Single-cell transcriptomics analysis of cardiac differentiation from human PSCs reveals HOPX-dependent cardiomyocyte maturation""
-
-* Details on data processing are described in [Nguyen et al., 2018][nguyen2018], "Determining cell fate specification and genetic contribution to cardiac disease risk in hiPSC-derived cardiomyocytes at single cell resolution"
+Checking runtime of CounClust with varying K, genes, and samples.
 
 
-[nguyen2018]: https://doi.org/10.1101/229336
-[friedman2018]: https://doi.org/10.1016/j.stem.2018.09.009
+## Analysis
 
 
-
-
-
-```{r, eval=F}
-
+```{r, message=F, warning=F, eval=F}
 library(CountClust)
 library(data.table)
+library(matrixStats)
+
 
 day0rep1 <- fread("../data/E-MTAB-6268/Day0Rep1_ReadMappedCount.txt")
 day0rep2 <- fread("../data/E-MTAB-6268/Day0Rep2_ReadMappedCount.txt")
@@ -35,7 +30,6 @@ day15rep1 <- fread("../data/E-MTAB-6268/Day15Rep1_ReadMappedCount.txt")
 day15rep2 <- fread("../data/E-MTAB-6268/Day15Rep2_ReadMappedCount.txt")
 day30rep1 <- fread("../data/E-MTAB-6268/Day30Rep1_ReadMappedCount.txt")
 day30rep2 <- fread("../data/E-MTAB-6268/Day30Rep2_ReadMappedCount.txt")
-
 
 
 fdata <- data.frame(gene_name = day0rep1$V1)
@@ -80,63 +74,16 @@ day15 <- cbind(day15rep1, day15rep2)
 day30 <- cbind(day30rep1, day30rep2)
 all <- cbind(day0, day2, day5, day15, day30)
 
-library(matrixStats)
-
-# rownames(day0rep1) <- fdata$gene_name
-# 
-ii <- order(rowVars(as.matrix(day0rep1)), decreasing = T)[1:100]
-day0rep1_vars <- day0rep1[ii,]
-t2 <- system.time (out <- FitGoM(t(day0rep1_vars),K = 2,tol = 1,
-              path_rda = "../data/countclust_output.rda",control = list(verb = 2)))
 
 ii <- order(rowVars(as.matrix(all)), decreasing = T)[1:100]
 all_vars <- all[ii,]
 t1 <- system.time(FitGoM(t(all_vars), K=2,
                          path_rda=paste0("../data/countclust_allsamples_k2.rda"), 
                          tol=1, control=list(verb=2)))
- 
 
-
-
-# ii <- order(rowVars(as.matrix(day0)), decreasing = T)[1:100]
-# day0_vars <- day0[ii,]
-# t1 <- system.time(FitGoM(t(day0_vars), K=2,
-#                          path_rda=paste0("../data/friedman2018_fit_",2,"clust.rds"), 
-#                          tol=1, control=list(verb=2)))
-
-load("../data/friedman2018_fit_2clust.rda")
-
-str(Topic_clus)
-
-
-omega <- Topic_clus$omega
-
-annotation <- data.frame(
-  sample_id = paste0("X", c(1:NROW(omega))),
-  tissue_label = factor(c(rep("day0_rep1",ncol(day0rep1)), 
-                          rep("day0_rep2",ncol(day0rep2))),
-                        levels = c("rep1", "rep2") ) )
-
-StructureGGplot(omega = omega,
-#                annotation = annotation,
-                palette = RColorBrewer::brewer.pal(8, "Accent"),
-                yaxis_label = "Amplification batch",
-                order_sample = TRUE,
-                axis_tick = list(axis_ticks_length = .1,
-                                 axis_ticks_lwd_y = .1,
-                                 axis_ticks_lwd_x = .1,
-                                 axis_label_size = 7,
-                                 axis_label_face = "bold"))
-
-
-
-                  
-# getwd()
-# 
-# for (k in 2:15) {
-#   FitGoM(t(all), K=k, path_rda=paste0("data/friedman2018_fit_",k,"clust.rda"))
-# }
-
+t2 <- system.time(FitGoM(t(all_vars), K=2,
+                         path_rda=paste0("../data/countclust_allsamples_k2.rda"), 
+                         tol=1, control=list(verb=2)))
 
 
 ```
