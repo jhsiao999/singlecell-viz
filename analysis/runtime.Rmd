@@ -8,83 +8,51 @@ output: workflowr::wflow_html
 ## Overview
 
 
-Checking runtime of CounClust with varying K, genes, and samples.
+With the ever-increasing throughput and resolution of single-cell technology, we need methods that are able to produce sensible results in a reasonable amount of time. Several factors come into place for the run time of CountClust:
 
+* Number of clusters (K)
+* Number of genes
+* Number of samples
+
+Here we assess the runtime of CountClust, with an emphasis on runtime under varying K's.
+
+* 
+* 
+
+---
 
 ## Analysis
 
+See `/analysis/code_runtime.Rmd/*` for codes. 
 
-```{r, message=F, warning=F, eval=F}
-library(CountClust)
-library(data.table)
-library(matrixStats)
+---
 
+## Results
 
-day0rep1 <- fread("../data/E-MTAB-6268/Day0Rep1_ReadMappedCount.txt")
-day0rep2 <- fread("../data/E-MTAB-6268/Day0Rep2_ReadMappedCount.txt")
-day2rep1 <- fread("../data/E-MTAB-6268/Day2Rep1_ReadMappedCount.txt")
-day2rep2 <- fread("../data/E-MTAB-6268/Day2Rep2_ReadMappedCount.txt")
-day5rep1 <- fread("../data/E-MTAB-6268/Day5Rep1_ReadMappedCount.txt")
-day5rep2 <- fread("../data/E-MTAB-6268/Day5Rep2_ReadMappedCount.txt")
-day15rep1 <- fread("../data/E-MTAB-6268/Day15Rep1_ReadMappedCount.txt")
-day15rep2 <- fread("../data/E-MTAB-6268/Day15Rep2_ReadMappedCount.txt")
-day30rep1 <- fread("../data/E-MTAB-6268/Day30Rep1_ReadMappedCount.txt")
-day30rep2 <- fread("../data/E-MTAB-6268/Day30Rep2_ReadMappedCount.txt")
+```
+#SBATCH --partition=broadwl
+#SBATCH --account=pi-mstephens
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem-per-cpu=5GB
+```
 
+```{r}
+res <- lapply(2:20, function(k) {
+    out <- readRDS(paste0("output/runtime.Rmd/countclust_allsamples_ngenes_100_nclust_",
+                          k,".rds"))
+    data.frame(nclust=k,user=out$time[1],
+               system=out$time[2], elapsed=out$time[3])
+})
+res_bind <- do.call(rbind, res)
 
-fdata <- data.frame(gene_name = day0rep1$V1)
+lm(res_bind$user/60 ~ res_bind$nclust)
 
-day0rep1 <- day0rep1[,-1]
-day0rep2 <- day0rep2[,-1]
-day2rep1 <- day2rep1[,-1]
-day2rep2 <- day2rep2[,-1]
-day5rep1 <- day5rep1[,-1]
-day5rep2 <- day5rep2[,-1]
-day15rep1 <- day15rep1[,-1]
-day15rep2 <- day15rep2[,-1]
-day30rep1 <- day30rep1[,-1]
-day30rep2 <- day30rep2[,-1]
-
-rownames(day0rep1) <- fdata$gene_name
-rownames(day0rep2) <- fdata$gene_name
-rownames(day2rep1) <- fdata$gene_name
-rownames(day2rep2) <- fdata$gene_name
-rownames(day5rep1) <- fdata$gene_name
-rownames(day5rep2) <- fdata$gene_name
-rownames(day15rep1) <- fdata$gene_name
-rownames(day15rep2) <- fdata$gene_name
-rownames(day30rep1) <- fdata$gene_name
-rownames(day30rep2) <- fdata$gene_name
-
-colnames(day0rep1) <- paste0("day0_rep1_", sprintf("%04d", c(1:ncol(day0rep1))))
-colnames(day0rep2) <- paste0("day0_rep2_", sprintf("%04d", c(1:ncol(day0rep2))))
-colnames(day2rep1) <- paste0("day2_rep1_", sprintf("%04d", c(1:ncol(day2rep1))))
-colnames(day2rep2) <- paste0("day2_rep2_", sprintf("%04d", c(1:ncol(day2rep2))))
-colnames(day5rep1) <- paste0("day5_rep1_", sprintf("%04d", c(1:ncol(day5rep1))))
-colnames(day5rep2) <- paste0("day5_rep2_", sprintf("%04d", c(1:ncol(day5rep2))))
-colnames(day15rep1) <- paste0("day15_rep1_", sprintf("%04d", c(1:ncol(day15rep1))))
-colnames(day15rep2) <- paste0("day15_rep2_", sprintf("%04d", c(1:ncol(day15rep2))))
-colnames(day30rep1) <- paste0("day30_rep1_", sprintf("%04d", c(1:ncol(day30rep1))))
-colnames(day30rep2) <- paste0("day30_rep2_", sprintf("%04d", c(1:ncol(day30rep2))))
-
-day0 <- cbind(day0rep1, day0rep2)
-day2 <- cbind(day2rep1, day2rep2)
-day5 <- cbind(day5rep1, day5rep2)
-day15 <- cbind(day15rep1, day15rep2)
-day30 <- cbind(day30rep1, day30rep2)
-all <- cbind(day0, day2, day5, day15, day30)
-
-
-ii <- order(rowVars(as.matrix(all)), decreasing = T)[1:100]
-all_vars <- all[ii,]
-t1 <- system.time(FitGoM(t(all_vars), K=2,
-                         path_rda=paste0("../data/countclust_allsamples_k2.rda"), 
-                         tol=1, control=list(verb=2)))
-
-t2 <- system.time(FitGoM(t(all_vars), K=2,
-                         path_rda=paste0("../data/countclust_allsamples_k2.rda"), 
-                         tol=1, control=list(verb=2)))
-
-
+plot(x=res_bind$nclust,
+     y=res_bind$user/60, 
+     xlab="K (number of clusters)",
+     ylab="user time (minutes)", pch=16, cex=.7,
+     main = "runtime (minutes) \n 44,020 samples x 100 genes \n time ~ -3.4 + 4*k")
+abline(a=-3.4, b=4, col="gray50")
 ```
 
