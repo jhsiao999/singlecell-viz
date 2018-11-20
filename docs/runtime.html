@@ -274,18 +274,27 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhsiao999/singlecell-viz/tree/9db4c82eb349676956ca00ac341282e3da3c5088" target="_blank">9db4c82</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhsiao999/singlecell-viz/tree/05a0cd7b9b2e64dfc648ac64ab72b4c380f24515" target="_blank">05a0cd7</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/friedman2018/
+    Ignored:    output/runtime.Rmd/
 
 Untracked files:
-    Untracked:  analysis/code_friedman.Rmd/
-    Untracked:  analysis/code_runtime.Rmd/
-    Untracked:  output/runtime.Rmd/
+    Untracked:  analysis/code_friedman.Rmd/slurm-52303693.out
+    Untracked:  analysis/code_runtime.Rmd/slurm-52303712.out
+
+Unstaged changes:
+    Modified:   analysis/code_friedman.Rmd/friedman-submit.sh
+    Modified:   analysis/code_friedman.Rmd/friedman.R
+    Modified:   analysis/code_friedman.Rmd/friedman.sbatch
+    Deleted:    analysis/code_runtime.Rmd/friedman-submit.sh
+    Modified:   analysis/code_runtime.Rmd/runtime-submit.sh
+    Modified:   analysis/code_runtime.Rmd/runtime.sbatch
+    Modified:   analysis/friedman.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -314,6 +323,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="https://github.com/jhsiao999/singlecell-viz/blob/05a0cd7b9b2e64dfc648ac64ab72b4c380f24515/analysis/runtime.Rmd" target="_blank">05a0cd7</a>
+</td>
+<td style="text-align:left;">
+Joyce Hsiao
+</td>
+<td style="text-align:left;">
+2018-11-20
+</td>
+<td style="text-align:left;">
+edits
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/0ab66b09925a2eab140f34092aa2c69217c4e40f/docs/runtime.html" target="_blank">0ab66b0</a>
+</td>
+<td style="text-align:left;">
+Joyce Hsiao
+</td>
+<td style="text-align:left;">
+2018-11-20
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -429,7 +472,7 @@ add runtime Rmd
 <pre><code>#SBATCH --partition=broadwl
 #SBATCH --account=pi-mstephens
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=10
+#SBATCH --cpus-per-task=4
 #SBATCH --mem-per-cpu=5GB</code></pre>
 <pre class="r"><code>res &lt;- lapply(2:20, function(k) {
     out &lt;- readRDS(paste0(&quot;output/runtime.Rmd/countclust_allsamples_ngenes_100_nclust_&quot;,
