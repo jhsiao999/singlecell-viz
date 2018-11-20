@@ -245,11 +245,12 @@ div.section {
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#analysis">Analysis</a></li>
+<li><a href="#results">Results</a></li>
 <li><a href="#session-information">Session information</a></li>
 </ul>
 </div>
 
-<p><strong>Last updated:</strong> 2018-11-19</p>
+<p><strong>Last updated:</strong> 2018-11-20</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -273,19 +274,18 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhsiao999/singlecell-viz/tree/508e2c254e4eebeea25c96c3ec339f7f5873ae2d" target="_blank">508e2c2</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="https://github.com/jhsiao999/singlecell-viz/tree/cd2adfc6ab0547309858ae564a5a1cac234f2af6" target="_blank">cd2adfc</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    data/E-MTAB-6268/
-    Ignored:    data/buenrostro2018/
     Ignored:    data/friedman2018/
 
-Unstaged changes:
-    Modified:   analysis/index.Rmd
+Untracked files:
+    Untracked:  analysis/code_friedman.Rmd/
+    Untracked:  analysis/code_runtime.Rmd/
+    Untracked:  output/runtime.Rmd/
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -319,6 +319,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="https://github.com/jhsiao999/singlecell-viz/blob/cd2adfc6ab0547309858ae564a5a1cac234f2af6/analysis/runtime.Rmd" target="_blank">cd2adfc</a>
+</td>
+<td style="text-align:left;">
+Joyce Hsiao
+</td>
+<td style="text-align:left;">
+2018-11-20
+</td>
+<td style="text-align:left;">
+runtime by number of clusters
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/jhsiao999/singlecell-viz/0a81fc172a984f98db4382119aad3c166ceba598/docs/runtime.html" target="_blank">0a81fc1</a>
+</td>
+<td style="text-align:left;">
+jhsiao999
+</td>
+<td style="text-align:left;">
+2018-11-19
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="https://github.com/jhsiao999/singlecell-viz/blob/508e2c254e4eebeea25c96c3ec339f7f5873ae2d/analysis/runtime.Rmd" target="_blank">508e2c2</a>
 </td>
 <td style="text-align:left;">
@@ -338,93 +372,72 @@ add runtime Rmd
 <hr />
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>Checking runtime of CounClust with varying K, genes, and samples.</p>
+<p>With the ever-increasing throughput and resolution of single-cell technology, we need methods that are able to produce sensible results in a reasonable amount of time. Several factors come into place for the run time of CountClust:</p>
+<ul>
+<li>Number of clusters (K)</li>
+<li>Number of genes</li>
+<li>Number of samples</li>
+</ul>
+<p>Here we assess the runtime of CountClust, with an emphasis on runtime under varying K’s.</p>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<hr />
 </div>
 <div id="analysis" class="section level2">
 <h2>Analysis</h2>
-<pre class="r"><code>library(CountClust)
-library(data.table)
-library(matrixStats)
+<p>See <code>/analysis/code_runtime.Rmd/*</code> for codes.</p>
+<hr />
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<pre><code>#SBATCH --partition=broadwl
+#SBATCH --account=pi-mstephens
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem-per-cpu=5GB</code></pre>
+<pre class="r"><code>res &lt;- lapply(2:20, function(k) {
+    out &lt;- readRDS(paste0(&quot;output/runtime.Rmd/countclust_allsamples_ngenes_100_nclust_&quot;,
+                          k,&quot;.rds&quot;))
+    data.frame(nclust=k,user=out$time[1],
+               system=out$time[2], elapsed=out$time[3])
+})
+res_bind &lt;- do.call(rbind, res)
 
+lm(res_bind$user/60 ~ res_bind$nclust)</code></pre>
+<pre><code>
+Call:
+lm(formula = res_bind$user/60 ~ res_bind$nclust)
 
-day0rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day0Rep1_ReadMappedCount.txt&quot;)
-day0rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day0Rep2_ReadMappedCount.txt&quot;)
-day2rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day2Rep1_ReadMappedCount.txt&quot;)
-day2rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day2Rep2_ReadMappedCount.txt&quot;)
-day5rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day5Rep1_ReadMappedCount.txt&quot;)
-day5rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day5Rep2_ReadMappedCount.txt&quot;)
-day15rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day15Rep1_ReadMappedCount.txt&quot;)
-day15rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day15Rep2_ReadMappedCount.txt&quot;)
-day30rep1 &lt;- fread(&quot;../data/E-MTAB-6268/Day30Rep1_ReadMappedCount.txt&quot;)
-day30rep2 &lt;- fread(&quot;../data/E-MTAB-6268/Day30Rep2_ReadMappedCount.txt&quot;)
-
-
-fdata &lt;- data.frame(gene_name = day0rep1$V1)
-
-day0rep1 &lt;- day0rep1[,-1]
-day0rep2 &lt;- day0rep2[,-1]
-day2rep1 &lt;- day2rep1[,-1]
-day2rep2 &lt;- day2rep2[,-1]
-day5rep1 &lt;- day5rep1[,-1]
-day5rep2 &lt;- day5rep2[,-1]
-day15rep1 &lt;- day15rep1[,-1]
-day15rep2 &lt;- day15rep2[,-1]
-day30rep1 &lt;- day30rep1[,-1]
-day30rep2 &lt;- day30rep2[,-1]
-
-rownames(day0rep1) &lt;- fdata$gene_name
-rownames(day0rep2) &lt;- fdata$gene_name
-rownames(day2rep1) &lt;- fdata$gene_name
-rownames(day2rep2) &lt;- fdata$gene_name
-rownames(day5rep1) &lt;- fdata$gene_name
-rownames(day5rep2) &lt;- fdata$gene_name
-rownames(day15rep1) &lt;- fdata$gene_name
-rownames(day15rep2) &lt;- fdata$gene_name
-rownames(day30rep1) &lt;- fdata$gene_name
-rownames(day30rep2) &lt;- fdata$gene_name
-
-colnames(day0rep1) &lt;- paste0(&quot;day0_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day0rep1))))
-colnames(day0rep2) &lt;- paste0(&quot;day0_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day0rep2))))
-colnames(day2rep1) &lt;- paste0(&quot;day2_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day2rep1))))
-colnames(day2rep2) &lt;- paste0(&quot;day2_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day2rep2))))
-colnames(day5rep1) &lt;- paste0(&quot;day5_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day5rep1))))
-colnames(day5rep2) &lt;- paste0(&quot;day5_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day5rep2))))
-colnames(day15rep1) &lt;- paste0(&quot;day15_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day15rep1))))
-colnames(day15rep2) &lt;- paste0(&quot;day15_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day15rep2))))
-colnames(day30rep1) &lt;- paste0(&quot;day30_rep1_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day30rep1))))
-colnames(day30rep2) &lt;- paste0(&quot;day30_rep2_&quot;, sprintf(&quot;%04d&quot;, c(1:ncol(day30rep2))))
-
-day0 &lt;- cbind(day0rep1, day0rep2)
-day2 &lt;- cbind(day2rep1, day2rep2)
-day5 &lt;- cbind(day5rep1, day5rep2)
-day15 &lt;- cbind(day15rep1, day15rep2)
-day30 &lt;- cbind(day30rep1, day30rep2)
-all &lt;- cbind(day0, day2, day5, day15, day30)
-
-
-ii &lt;- order(rowVars(as.matrix(all)), decreasing = T)[1:100]
-all_vars &lt;- all[ii,]
-t1 &lt;- system.time(FitGoM(t(all_vars), K=2,
-                         path_rda=paste0(&quot;../data/countclust_allsamples_k2.rda&quot;), 
-                         tol=1, control=list(verb=2)))
-
-t2 &lt;- system.time(FitGoM(t(all_vars), K=2,
-                         path_rda=paste0(&quot;../data/countclust_allsamples_k2.rda&quot;), 
-                         tol=1, control=list(verb=2)))</code></pre>
+Coefficients:
+    (Intercept)  res_bind$nclust  
+         -3.396            4.007  </code></pre>
+<pre class="r"><code>plot(x=res_bind$nclust,
+     y=res_bind$user/60, 
+     xlab=&quot;K (number of clusters)&quot;,
+     ylab=&quot;user time (minutes)&quot;, pch=16, cex=.7,
+     main = &quot;runtime (minutes) \n 44,020 samples x 100 genes \n time ~ -3.4 + 4*k&quot;)
+abline(a=-3.4, b=4, col=&quot;gray50&quot;)</code></pre>
+<p><img src="figure/runtime.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.4.1 (2017-06-30)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+BLAS/LAPACK: /software/openblas-0.2.19-el7-x86_64/lib/libopenblas_haswellp-r0.2.19.so
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -434,8 +447,8 @@ loaded via a namespace (and not attached):
  [4] rprojroot_1.3-2   R.methodsS3_1.7.1 backports_1.1.2  
  [7] magrittr_1.5      git2r_0.23.0      evaluate_0.12    
 [10] stringi_1.2.4     whisker_0.3-2     R.oo_1.22.0      
-[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.4.1      
-[16] stringr_1.3.1     yaml_2.2.0        compiler_3.4.1   
+[13] R.utils_2.7.0     rmarkdown_1.10    tools_3.5.1      
+[16] stringr_1.3.1     yaml_2.2.0        compiler_3.5.1   
 [19] htmltools_0.3.6   knitr_1.20       </code></pre>
 </div>
 
