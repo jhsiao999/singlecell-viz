@@ -16,8 +16,9 @@ With the ever-increasing throughput and resolution of single-cell technology, we
 
 Here we assess the runtime of CountClust, with an emphasis on runtime under varying K's.
 
-* 
-* 
+* For 44,020 samples x 100 genes, takes approx. 80 minutes to run K=20. Also this was ran without the step of choosing between multiple starting points. 
+
+* Next step is to look into making this process more efficient, possible through `maptpx` (`OPENMP` parallelization).
 
 ---
 
